@@ -4,9 +4,32 @@ A small Windows 11 tray app. Plug in the LAN cable and it remembers the Wi-Fi ne
 were on, then takes Wi-Fi down. Pull the cable out and it puts you straight back on that
 network.
 
-## Build
+## Requirements
 
-You need the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
+- Windows 10 1809 or later (Windows 11 is what this was written for)
+- The **.NET 10 SDK** — get it from <https://dotnet.microsoft.com/download/dotnet/10.0>
+
+Take the installer from the **SDK** column, not "Runtime" or "Desktop Runtime". The runtime
+only *runs* .NET apps; it cannot build them. Pick **x64** unless you are on an ARM machine
+(Snapdragon X, some Surface models) — `echo $env:PROCESSOR_ARCHITECTURE` prints `AMD64` for
+x64.
+
+After installing, **fully quit and reopen VS Code**. The installer edits `PATH`, and VS Code
+only reads the environment when it launches, so opening a new terminal is not enough.
+
+Confirm it took:
+
+```powershell
+dotnet --list-sdks
+```
+
+You want a line like `10.0.401 [C:\Program Files\dotnet\sdk]`.
+
+> Targeting .NET 10 rather than 8 on purpose: .NET 8 leaves support on 10 November 2026.
+> To build against 8 anyway, set the target framework to `net8.0-windows10.0.17763.0` —
+> keep the `10.0.17763.0` part either way (see Troubleshooting).
+
+## Build
 
 ```powershell
 cd EthernetWifiSwitcher
@@ -27,9 +50,39 @@ dotnet publish -c Release -r win-x64 --self-contained false `
   -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 ```
 
-The result lands in `bin\Release\net8.0-windows\win-x64\publish\EthernetWifiSwitcher.exe`.
+The result lands in:
+
+```
+bin\Release\net10.0-windows10.0.17763.0\win-x64\publish\EthernetWifiSwitcher.exe
+```
+
 Add `--self-contained true` if you want it to run on machines without the .NET runtime
 (bigger file, no prerequisites).
+
+## Troubleshooting the build
+
+**`No .NET SDKs were found`** — you have the runtime, not the SDK. See Requirements above.
+
+**`winget is not recognized`** — winget ships as "App Installer" from the Microsoft Store and
+is missing on some images. Use the downloaded installer instead; nothing here needs winget.
+
+**`NETSDK1135: SupportedOSPlatformVersion 10.0.17763.0 cannot be higher than
+TargetPlatformVersion 7.0`** — the target framework is a bare `net8.0-windows` or
+`net10.0-windows`, which implies Windows API version 7.0. Put the Windows version in the TFM
+itself and delete any separate `SupportedOSPlatformVersion` property, so the two cannot drift
+apart:
+
+```xml
+<TargetFramework>net10.0-windows10.0.17763.0</TargetFramework>
+```
+
+**Restore warnings about `System.Security.Cryptography.ProtectedData`** — the pinned version
+works fine on .NET 10. Bump the `Version` attribute in the `PackageReference` to match your
+SDK's major version if you would rather have it silent.
+
+Installing the **C# Dev Kit** extension in VS Code is optional but worth it: you get
+IntelliSense and F5 debugging, which makes the `netsh` output parsing much easier to inspect
+at runtime.
 
 ## First run
 

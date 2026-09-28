@@ -2,22 +2,22 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <!-- The Windows version belongs in the TFM. A bare "net10.0-windows" implies Windows
+         API version 7.0 and then trips NETSDK1135. Do not also set SupportedOSPlatformVersion. -->
+    <TargetFramework>net10.0-windows10.0.17763.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>EthernetWifiSwitcher</RootNamespace>
     <AssemblyName>EthernetWifiSwitcher</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <Version>1.0.0</Version>
     <Product>Ethernet Wi-Fi Switcher</Product>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- DPAPI (CryptProtectData) so the saved Wi-Fi key is never written in plain text. -->
-    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

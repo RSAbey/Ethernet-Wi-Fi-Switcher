@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "UjhnrQmx+0U=",
+  "success": true,
+  "projectFilePath": "E:\\My Profission\\360 Technologies\\2026\\Projects\\Ethernet-Wi-Fi-Switcher\\EthernetWifiSwitcher.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.security.cryptography.protecteddata\\8.0.0\\system.security.cryptography.protecteddata.8.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.17763.57\\microsoft.windows.sdk.net.ref.10.0.17763.57.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "message": "PackageReference System.Security.Cryptography.ProtectedData will not be pruned. This package is automatically available and does not need to be referenced explicitly. Remove the PackageReference item.",
+      "projectPath": "E:\\My Profission\\360 Technologies\\2026\\Projects\\Ethernet-Wi-Fi-Switcher\\EthernetWifiSwitcher.csproj",
+      "warningLevel": 1,
+      "filePath": "E:\\My Profission\\360 Technologies\\2026\\Projects\\Ethernet-Wi-Fi-Switcher\\EthernetWifiSwitcher.csproj",
+      "libraryId": "System.Security.Cryptography.ProtectedData",
+      "targetGraphs": [
+        "net10.0-windows10.0.17763"
+      ]
+    }
+  ]
+}
